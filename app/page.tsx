@@ -1,65 +1,118 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#d1d0c5]">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#e2b714] opacity-5 blur-[120px]"></div>
+
+      {/* Header */}
+      <header className="relative z-10 w-full max-w-6xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-[#e2b714] to-[#d4a50f] text-xl shadow-lg shadow-[#e2b714]/20">
+              ⌨️
+            </div>
+            <span className="text-lg font-semibold text-[#d1d0c5]">
+              TypeSprint
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-16">
+        {/* Logo & Tagline */}
+        <div className="flex flex-col items-center gap-6 text-center">
+          <div className="relative">
+            <h1 className="bg-linear-to-br from-[#d1d0c5] via-[#e2b714] to-[#d1d0c5] bg-clip-text text-7xl font-bold tracking-tight text-transparent sm:text-8xl">
+              TypeSprint
+            </h1>
+            <div className="absolute -bottom-2 left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-linear-to-r from-transparent via-[#e2b714] to-transparent opacity-50"></div>
+          </div>
+          <p className="text-2xl font-light tracking-wide text-[#646669] sm:text-3xl">
+            Race your keys. Beat your best.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Mode Selection Buttons */}
+        <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
+          <button className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-16 py-8 text-xl font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20">
+            <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
+              Solo Mode
+            </span>
+          </button>
+          <button className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-16 py-8 text-xl font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20">
+            <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
+              Multiplayer Mode
+            </span>
+          </button>
+        </div>
+
+        {/* Instructions */}
+        <div className="w-full max-w-3xl rounded-2xl border border-[#2c2e31] bg-linear-to-br from-[#2c2e31]/50 to-[#252729]/50 p-10 shadow-2xl backdrop-blur-sm">
+          <h2 className="mb-6 flex items-center gap-3 text-2xl font-semibold text-[#e2b714]">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#e2b714]/10">
+              💡
+            </span>
+            How it works
+          </h2>
+          <div className="space-y-5 text-base">
+            <div className="flex gap-4 rounded-xl bg-[#323437]/50 p-4 transition-colors hover:bg-[#323437]/80">
+              <span className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#e2b714]/20 text-sm font-bold text-[#e2b714]">
+                1
+              </span>
+              <p className="text-[#d1d0c5]">
+                <span className="font-semibold text-[#e2b714]">Solo Mode:</span>{" "}
+                <span className="text-[#9b9a8f]">
+                  Test your typing speed and accuracy. Beat your personal best.
+                </span>
+              </p>
+            </div>
+            <div className="flex gap-4 rounded-xl bg-[#323437]/50 p-4 transition-colors hover:bg-[#323437]/80">
+              <span className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#e2b714]/20 text-sm font-bold text-[#e2b714]">
+                2
+              </span>
+              <p className="text-[#d1d0c5]">
+                <span className="font-semibold text-[#e2b714]">
+                  Multiplayer Mode:
+                </span>{" "}
+                <span className="text-[#9b9a8f]">
+                  Race against others in real-time. First to finish wins.
+                </span>
+              </p>
+            </div>
+            <div className="flex gap-4 rounded-xl bg-[#323437]/50 p-4 transition-colors hover:bg-[#323437]/80">
+              <span className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#e2b714]/20 text-sm font-bold text-[#e2b714]">
+                ⚡
+              </span>
+              <p className="text-[#d1d0c5]">
+                <span className="font-semibold text-[#e2b714]">Pro Tip:</span>{" "}
+                <span className="text-[#9b9a8f]">
+                  Stay focused, type accurately, and let your fingers fly!
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 w-full max-w-6xl text-center">
+        <div className="flex flex-col items-center gap-3 text-sm text-[#646669]">
+          <div className="flex items-center gap-2">
+            <p>Built with Next.js & WebSockets</p>
+            <span className="text-[#e2b714]">•</span>
+            <a
+              href="https://github.com"
+              className="text-[#e2b714] transition-all duration-200 hover:text-[#d1d0c5] hover:underline"
+            >
+              GitHub
+            </a>
+          </div>
+          <p className="text-xs">Made with ⌨️ by TypeSprint Team</p>
+        </div>
+      </footer>
     </div>
   );
 }
