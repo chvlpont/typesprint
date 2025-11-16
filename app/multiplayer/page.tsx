@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 // Generate random room code
 const generateRoomCode = () => {
@@ -11,38 +13,136 @@ const generateRoomCode = () => {
 interface Player {
   id: string;
   name: string;
-  isHost: boolean;
+  is_host: boolean;
+  room_id: string;
 }
 
 export default function MultiplayerLobby() {
+  const router = useRouter();
   const [roomCode, setRoomCode] = useState("");
+  const [roomId, setRoomId] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [inRoom, setInRoom] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
   const [playerName, setPlayerName] = useState("");
+  const [playerId, setPlayerId] = useState("");
   const [isHost, setIsHost] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleCreateRoom = () => {
+  // Fetch players for current room
+  const fetchPlayers = async (currentRoomId: string) => {
+    const { data, error } = await supabase
+      .from("players")
+      .select("*")
+      .eq("room_id", currentRoomId)
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching players:", error);
+      return;
+    }
+
+    setPlayers(data || []);
+  };
+
+  // Subscribe to player changes and room start
+  useEffect(() => {
+    if (!roomId) return;
+
+    // Initial fetch
+    fetchPlayers(roomId);
+
+    // Subscribe to player changes
+    const playersChannel = supabase
+      .channel(`room-players-${roomId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "players",
+          filter: `room_id=eq.${roomId}`,
+        },
+        () => {
+          fetchPlayers(roomId);
+        }
+      )
+      .subscribe();
+
+    // Subscribe to room updates (for game start)
+    const roomChannel = supabase
+      .channel(`room-status-${roomId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "rooms",
+          filter: `id=eq.${roomId}`,
+        },
+        async (payload) => {
+          // Check if game started
+          if (payload.new.started) {
+            // Navigate non-host players to race page
+            router.push(`/multiplayer/race?roomId=${roomId}&playerId=${playerId}`);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(playersChannel);
+      supabase.removeChannel(roomChannel);
+    };
+  }, [roomId, playerId, router]);
+
+  const handleCreateRoom = async () => {
     if (!playerName.trim()) {
       alert("Please enter your name first!");
       return;
     }
 
-    const newRoomCode = generateRoomCode();
-    setRoomCode(newRoomCode);
-    setIsHost(true);
-    setInRoom(true);
-    setPlayers([
-      {
-        id: "1",
-        name: playerName,
-        isHost: true,
-      },
-    ]);
+    setLoading(true);
+    try {
+      const newRoomCode = generateRoomCode();
+
+      // Create room
+      const { data: room, error: roomError } = await supabase
+        .from("rooms")
+        .insert({ code: newRoomCode })
+        .select()
+        .single();
+
+      if (roomError) throw roomError;
+
+      // Create player
+      const { data: player, error: playerError } = await supabase
+        .from("players")
+        .insert({
+          room_id: room.id,
+          name: playerName,
+          is_host: true,
+        })
+        .select()
+        .single();
+
+      if (playerError) throw playerError;
+
+      setRoomCode(newRoomCode);
+      setRoomId(room.id);
+      setPlayerId(player.id);
+      setIsHost(true);
+      setInRoom(true);
+    } catch (error) {
+      console.error("Error creating room:", error);
+      alert("Failed to create room. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleJoinRoom = () => {
+  const handleJoinRoom = async () => {
     if (!playerName.trim()) {
       alert("Please enter your name first!");
       return;
@@ -52,23 +152,52 @@ export default function MultiplayerLobby() {
       return;
     }
 
-    // In a real implementation, this would connect to the server
-    // For now, we'll simulate joining
-    setRoomCode(joinCode.toUpperCase());
-    setInRoom(true);
-    setIsHost(false);
-    setPlayers([
-      {
-        id: "1",
-        name: "Host Player",
-        isHost: true,
-      },
-      {
-        id: "2",
-        name: playerName,
-        isHost: false,
-      },
-    ]);
+    setLoading(true);
+    try {
+      // Find room by code
+      const { data: room, error: roomError } = await supabase
+        .from("rooms")
+        .select("*")
+        .eq("code", joinCode.toUpperCase())
+        .single();
+
+      if (roomError || !room) {
+        alert("Room not found! Please check the code.");
+        setLoading(false);
+        return;
+      }
+
+      // Check if room already started
+      if (room.started) {
+        alert("This room has already started!");
+        setLoading(false);
+        return;
+      }
+
+      // Join room
+      const { data: player, error: playerError } = await supabase
+        .from("players")
+        .insert({
+          room_id: room.id,
+          name: playerName,
+          is_host: false,
+        })
+        .select()
+        .single();
+
+      if (playerError) throw playerError;
+
+      setRoomCode(joinCode.toUpperCase());
+      setRoomId(room.id);
+      setPlayerId(player.id);
+      setIsHost(false);
+      setInRoom(true);
+    } catch (error) {
+      console.error("Error joining room:", error);
+      alert("Failed to join room. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCopyCode = () => {
@@ -77,18 +206,39 @@ export default function MultiplayerLobby() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleLeaveRoom = () => {
-    setInRoom(false);
-    setRoomCode("");
-    setJoinCode("");
-    setPlayers([]);
-    setIsHost(false);
+  const handleLeaveRoom = async () => {
+    try {
+      // Delete player
+      await supabase.from("players").delete().eq("id", playerId);
+
+      // If host, delete the entire room (cascade deletes all players)
+      if (isHost) {
+        await supabase.from("rooms").delete().eq("id", roomId);
+      }
+
+      setInRoom(false);
+      setRoomCode("");
+      setRoomId("");
+      setJoinCode("");
+      setPlayers([]);
+      setIsHost(false);
+      setPlayerId("");
+    } catch (error) {
+      console.error("Error leaving room:", error);
+    }
   };
 
-  const handleStartGame = () => {
-    // This will navigate to the multiplayer game page
-    // For now, just show an alert
-    alert("Game starting... (Game page will be implemented next)");
+  const handleStartGame = async () => {
+    try {
+      // Mark room as started
+      await supabase.from("rooms").update({ started: true }).eq("id", roomId);
+
+      // Navigate to race page with room info
+      router.push(`/multiplayer/race?roomId=${roomId}&playerId=${playerId}`);
+    } catch (error) {
+      console.error("Error starting game:", error);
+      alert("Failed to start game. Please try again.");
+    }
   };
 
   return (
@@ -155,11 +305,12 @@ export default function MultiplayerLobby() {
               </p>
               <button
                 onClick={handleCreateRoom}
-                className="group relative w-full overflow-hidden rounded-xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-8 py-4 text-lg font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20"
+                disabled={loading}
+                className="group relative w-full overflow-hidden rounded-xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-8 py-4 text-lg font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20 disabled:opacity-50 disabled:hover:scale-100"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
-                  Create Room
+                  {loading ? "Creating..." : "Create Room"}
                 </span>
               </button>
             </div>
@@ -183,11 +334,12 @@ export default function MultiplayerLobby() {
                 />
                 <button
                   onClick={handleJoinRoom}
-                  className="group relative overflow-hidden rounded-xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-8 py-3 text-lg font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20"
+                  disabled={loading}
+                  className="group relative overflow-hidden rounded-xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-8 py-3 text-lg font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
-                    Join
+                    {loading ? "Joining..." : "Join"}
                   </span>
                 </button>
               </div>
@@ -242,7 +394,7 @@ export default function MultiplayerLobby() {
                         {player.name}
                       </span>
                     </div>
-                    {player.isHost && (
+                    {player.is_host && (
                       <span className="rounded-lg bg-[#e2b714]/20 px-3 py-1 text-sm font-semibold text-[#e2b714]">
                         Host
                       </span>
