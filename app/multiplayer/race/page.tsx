@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { SAMPLE_TEXTS } from "@/lib/constants";
 
-const RACE_TEXT =
-  "The quick brown fox jumps over the lazy dog while racing through the forest at incredible speed.";
+// Use the first sample text for multiplayer races
+const RACE_TEXT = SAMPLE_TEXTS[0];
 
 interface Player {
   id: string;
@@ -17,6 +18,7 @@ interface Player {
   finished: boolean;
   finish_time?: string;
   is_host: boolean;
+  score?: number;
 }
 
 export default function MultiplayerRace() {
@@ -49,10 +51,19 @@ export default function MultiplayerRace() {
 
     setPlayers(data || []);
 
-    // Check if anyone has finished
-    const finishedPlayer = data?.find((p) => p.finished);
-    if (finishedPlayer && !winner) {
-      setWinner(finishedPlayer.name);
+    // Check if ALL players have finished
+    const allFinished = data && data.length > 0 && data.every((p) => p.finished);
+
+    // Set winner (highest score when all finished)
+    if (allFinished && !winner && data) {
+      const sortedByScore = [...data].sort((a, b) => (b.score || 0) - (a.score || 0));
+      if (sortedByScore[0]) {
+        setWinner(sortedByScore[0].name);
+      }
+    }
+
+    // Only show results when ALL players have finished
+    if (allFinished && !raceFinished) {
       setTimeout(() => setRaceFinished(true), 2000);
     }
   };
@@ -140,8 +151,11 @@ export default function MultiplayerRace() {
       wpm = Math.round(wordsTyped / timeInMinutes);
     }
 
-    // Update player progress in database
-    const finished = value === RACE_TEXT;
+    // Update player progress in database (finish at 100% progress)
+    const finished = value.length === RACE_TEXT.length;
+
+    // Calculate score: WPM × (Accuracy / 100)
+    const score = finished ? Math.round(wpm * (accuracy / 100)) : 0;
 
     await supabase
       .from("players")
@@ -151,6 +165,7 @@ export default function MultiplayerRace() {
         accuracy: Math.round(accuracy),
         finished: finished,
         finish_time: finished ? new Date().toISOString() : null,
+        score: score,
       })
       .eq("id", playerId);
 
@@ -172,14 +187,10 @@ export default function MultiplayerRace() {
     return "th";
   };
 
-  // Calculate final rankings
+  // Calculate final rankings (sorted by score: WPM × accuracy)
   const rankedPlayers = [...players]
     .filter((p) => p.finished)
-    .sort((a, b) => {
-      const timeA = a.finish_time ? new Date(a.finish_time).getTime() : 0;
-      const timeB = b.finish_time ? new Date(b.finish_time).getTime() : 0;
-      return timeA - timeB;
-    });
+    .sort((a, b) => (b.score || 0) - (a.score || 0));
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#d1d0c5]">
@@ -358,6 +369,12 @@ export default function MultiplayerRace() {
                         </div>
                       </div>
                       <div className="flex gap-6 text-sm">
+                        <div className="text-center">
+                          <p className="text-[#646669]">Score</p>
+                          <p className="text-lg font-bold text-[#e2b714]">
+                            {player.score || 0}
+                          </p>
+                        </div>
                         <div className="text-center">
                           <p className="text-[#646669]">WPM</p>
                           <p className="text-lg font-bold text-[#e2b714]">

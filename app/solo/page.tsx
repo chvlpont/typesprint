@@ -2,14 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-
-const SAMPLE_TEXTS = [
-  "The quick brown fox jumps over the lazy dog near the riverbank.",
-  "Programming is not about what you know it is about what you can figure out.",
-  "Success is not final failure is not fatal it is the courage to continue that counts.",
-  "The only way to do great work is to love what you do and keep learning.",
-  "Practice makes perfect but perfect practice makes champions in any field.",
-];
+import { SAMPLE_TEXTS, getRandomText } from "@/lib/constants";
 
 export default function SoloMode() {
   const [text, setText] = useState("");
@@ -32,9 +25,7 @@ export default function SoloMode() {
   }, [text]);
 
   const resetGame = () => {
-    const randomText =
-      SAMPLE_TEXTS[Math.floor(Math.random() * SAMPLE_TEXTS.length)];
-    setText(randomText);
+    setText(getRandomText());
     setInput("");
     setStartTime(null);
     setEndTime(null);
