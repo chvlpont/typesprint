@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { supabase } from "@/lib/supabase";
 
 // Generate random room code
@@ -127,7 +128,7 @@ export default function MultiplayerLobby() {
 
   const handleCreateRoom = async () => {
     if (!playerName.trim()) {
-      alert("Please enter your name first!");
+      toast.error("Please enter your name first!");
       return;
     }
 
@@ -164,7 +165,7 @@ export default function MultiplayerLobby() {
       setInRoom(true);
     } catch (error) {
       console.error("Error creating room:", error);
-      alert("Failed to create room. Please try again.");
+      toast.error("Failed to create room. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -172,11 +173,11 @@ export default function MultiplayerLobby() {
 
   const handleJoinRoom = async () => {
     if (!playerName.trim()) {
-      alert("Please enter your name first!");
+      toast.error("Please enter your name first!");
       return;
     }
     if (!joinCode.trim()) {
-      alert("Please enter a room code!");
+      toast.error("Please enter a room code!");
       return;
     }
 
@@ -190,14 +191,14 @@ export default function MultiplayerLobby() {
         .single();
 
       if (roomError || !room) {
-        alert("Room not found! Please check the code.");
+        toast.error("Room not found! Please check the code.");
         setLoading(false);
         return;
       }
 
       // Check if room already started
       if (room.started) {
-        alert("This room has already started!");
+        toast.error("This room has already started!");
         setLoading(false);
         return;
       }
@@ -222,7 +223,7 @@ export default function MultiplayerLobby() {
       setInRoom(true);
     } catch (error) {
       console.error("Error joining room:", error);
-      alert("Failed to join room. Please try again.");
+      toast.error("Failed to join room. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -231,6 +232,7 @@ export default function MultiplayerLobby() {
   const handleCopyCode = () => {
     navigator.clipboard.writeText(roomCode);
     setCopied(true);
+    toast.success("Room code copied to clipboard!");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -265,7 +267,7 @@ export default function MultiplayerLobby() {
       router.push(`/multiplayer/race?roomId=${roomId}&playerId=${playerId}`);
     } catch (error) {
       console.error("Error starting game:", error);
-      alert("Failed to start game. Please try again.");
+      toast.error("Failed to start game. Please try again.");
     }
   };
 
