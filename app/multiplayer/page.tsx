@@ -59,12 +59,40 @@ export default function MultiplayerLobby() {
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
           schema: "public",
           table: "players",
           filter: `room_id=eq.${roomId}`,
         },
         () => {
+          console.log("Player joined room");
+          fetchPlayers(roomId);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "players",
+          filter: `room_id=eq.${roomId}`,
+        },
+        () => {
+          console.log("Player updated in room");
+          fetchPlayers(roomId);
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "players",
+        },
+        (payload) => {
+          console.log("Player deleted from room", payload);
+          // Note: payload.old only contains the ID for DELETE events in Supabase
+          // So we just refresh the player list - fetchPlayers() already filters by roomId
           fetchPlayers(roomId);
         }
       )
