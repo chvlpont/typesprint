@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#d1d0c5]">
@@ -35,12 +37,15 @@ export default function Home() {
 
         {/* Mode Selection Buttons */}
         <div className="flex flex-col gap-5 sm:flex-row sm:gap-8">
-          <button className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-16 py-8 text-xl font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20">
+          <Link
+            href="/solo"
+            className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-16 py-8 text-xl font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20"
+          >
             <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
             <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
               Solo Mode
             </span>
-          </button>
+          </Link>
           <button className="group relative overflow-hidden rounded-2xl bg-linear-to-br from-[#2c2e31] to-[#252729] px-16 py-8 text-xl font-semibold text-[#d1d0c5] shadow-xl shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#e2b714]/20">
             <div className="absolute inset-0 bg-linear-to-br from-[#e2b714] to-[#d4a50f] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
             <span className="relative z-10 transition-colors duration-300 group-hover:text-[#323437]">
