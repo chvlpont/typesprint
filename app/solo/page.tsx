@@ -63,8 +63,8 @@ export default function SoloMode() {
     const acc = value.length > 0 ? (correct / value.length) * 100 : 100;
     setAccuracy(Math.round(acc));
 
-    // Check if finished
-    if (value === text) {
+    // Check if finished (when progress reaches 100%)
+    if (value.length === text.length) {
       const end = Date.now();
       setEndTime(end);
       setIsFinished(true);
