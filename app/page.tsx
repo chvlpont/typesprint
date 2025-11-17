@@ -10,9 +10,6 @@ export default function Home() {
       <header className="relative z-10 w-full max-w-6xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-[#f5c542] to-[#e2b714] text-xl shadow-lg shadow-[#f5c542]/20">
-              ⌨️
-            </div>
             <span className="text-lg font-semibold text-[#e8e6df]">
               TypeSprint
             </span>
@@ -23,14 +20,11 @@ export default function Home() {
       {/* Main Content */}
       <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-16">
         {/* Logo & Tagline */}
-        <div className="flex flex-col items-center gap-6 text-center">
-          <div className="relative">
-            <h1 className="bg-linear-to-br from-[#e8e6df] via-[#f5c542] to-[#e8e6df] bg-clip-text text-7xl font-bold tracking-tight text-transparent sm:text-8xl">
-              TypeSprint
-            </h1>
-            <div className="absolute -bottom-2 left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-linear-to-r from-transparent via-[#f5c542] to-transparent opacity-50"></div>
-          </div>
-          <p className="text-2xl font-light tracking-wide text-[#9b9d9f] sm:text-3xl">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <h1 className="text-6xl font-extrabold tracking-tight text-[#e8e6df] sm:text-7xl">
+            Type<span className="text-[#f5c542]">Sprint</span>
+          </h1>
+          <p className="text-xl font-light tracking-wide text-[#9b9d9f] sm:text-2xl">
             Race your keys. Beat your best.
           </p>
         </div>

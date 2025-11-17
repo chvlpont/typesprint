@@ -105,9 +105,6 @@ export default function SoloMode() {
       <header className="relative z-10 w-full max-w-6xl">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-[#f5c542] to-[#e2b714] text-xl shadow-lg shadow-[#f5c542]/20">
-              ⌨️
-            </div>
             <span className="text-lg font-semibold text-[#e8e6df]">
               TypeSprint
             </span>
