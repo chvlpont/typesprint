@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -21,7 +21,7 @@ interface Player {
   score?: number;
 }
 
-export default function MultiplayerRace() {
+function MultiplayerRaceContent() {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("roomId");
   const playerId = searchParams.get("playerId");
@@ -422,5 +422,17 @@ export default function MultiplayerRace() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function MultiplayerRace() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-[#323437]">
+        <div className="text-xl text-[#e8e6df]">Loading race...</div>
+      </div>
+    }>
+      <MultiplayerRaceContent />
+    </Suspense>
   );
 }
