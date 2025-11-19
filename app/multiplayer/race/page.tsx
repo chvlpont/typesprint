@@ -52,11 +52,14 @@ function MultiplayerRaceContent() {
     setPlayers(data || []);
 
     // Check if ALL players have finished
-    const allFinished = data && data.length > 0 && data.every((p) => p.finished);
+    const allFinished =
+      data && data.length > 0 && data.every((p) => p.finished);
 
     // Set winner (highest score when all finished)
     if (allFinished && !winner && data) {
-      const sortedByScore = [...data].sort((a, b) => (b.score || 0) - (a.score || 0));
+      const sortedByScore = [...data].sort(
+        (a, b) => (b.score || 0) - (a.score || 0)
+      );
       if (sortedByScore[0]) {
         setWinner(sortedByScore[0].name);
       }
@@ -204,8 +207,8 @@ function MultiplayerRaceContent() {
             href="/"
             className="flex items-center gap-3 transition-opacity hover:opacity-80"
           >
-            <span className="text-lg font-semibold text-[#e8e6df]">
-              TypeSprint
+            <span className="text-xl font-extrabold tracking-tight text-[#e8e6df]">
+              Type<span className="text-[#f5c542]">Sprint</span>
             </span>
           </Link>
           <div className="flex items-center gap-3">
@@ -282,7 +285,9 @@ function MultiplayerRaceContent() {
                         <div>
                           <p
                             className={`font-semibold ${
-                              isCurrentPlayer ? "text-[#f5c542]" : "text-[#e8e6df]"
+                              isCurrentPlayer
+                                ? "text-[#f5c542]"
+                                : "text-[#e8e6df]"
                             }`}
                           >
                             {player.name}
@@ -427,11 +432,13 @@ function MultiplayerRaceContent() {
 
 export default function MultiplayerRace() {
   return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center bg-[#323437]">
-        <div className="text-xl text-[#e8e6df]">Loading race...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#323437]">
+          <div className="text-xl text-[#e8e6df]">Loading race...</div>
+        </div>
+      }
+    >
       <MultiplayerRaceContent />
     </Suspense>
   );

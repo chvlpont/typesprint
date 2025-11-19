@@ -114,7 +114,9 @@ export default function MultiplayerLobby() {
           // Check if game started
           if (payload.new.started) {
             // Navigate non-host players to race page
-            router.push(`/multiplayer/race?roomId=${roomId}&playerId=${playerId}`);
+            router.push(
+              `/multiplayer/race?roomId=${roomId}&playerId=${playerId}`
+            );
           }
         }
       )
@@ -283,8 +285,8 @@ export default function MultiplayerLobby() {
             href="/"
             className="flex items-center gap-3 transition-opacity hover:opacity-80"
           >
-            <span className="text-lg font-semibold text-[#e8e6df]">
-              TypeSprint
+            <span className="text-xl font-extrabold tracking-tight text-[#e8e6df]">
+              Type<span className="text-[#f5c542]">Sprint</span>
             </span>
           </Link>
           <span className="rounded-lg bg-[#2c2e31] px-4 py-2 text-sm font-semibold text-[#f5c542]">
@@ -473,7 +475,10 @@ export default function MultiplayerLobby() {
       {/* Footer */}
       <footer className="relative z-10 w-full max-w-6xl text-center">
         <div className="flex flex-col items-center gap-3 text-sm text-[#9b9d9f]">
-          <p className="text-xs">Built with Next.js, TypeScript, Supabase, PostgreSQL, WebSockets & Tailwind CSS</p>
+          <p className="text-xs">
+            Built with Next.js, TypeScript, Supabase, PostgreSQL, WebSockets &
+            Tailwind CSS
+          </p>
         </div>
       </footer>
     </div>

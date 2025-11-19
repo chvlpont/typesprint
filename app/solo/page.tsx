@@ -104,9 +104,12 @@ export default function SoloMode() {
       {/* Header */}
       <header className="relative z-10 w-full max-w-6xl">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-            <span className="text-lg font-semibold text-[#e8e6df]">
-              TypeSprint
+          <Link
+            href="/"
+            className="flex items-center gap-3 transition-opacity hover:opacity-80"
+          >
+            <span className="text-xl font-extrabold tracking-tight text-[#e8e6df]">
+              Type<span className="text-[#f5c542]">Sprint</span>
             </span>
           </Link>
           <span className="rounded-lg bg-[#2c2e31] px-4 py-2 text-sm font-semibold text-[#f5c542]">
