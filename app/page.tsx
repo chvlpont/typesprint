@@ -6,17 +6,6 @@ export default function Home() {
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
-      {/* Header */}
-      <header className="relative z-10 w-full max-w-6xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-lg font-semibold text-[#e8e6df]">
-              TypeSprint
-            </span>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-16">
         {/* Logo & Tagline */}
