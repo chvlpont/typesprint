@@ -97,7 +97,7 @@ export default function SoloMode() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#e8e6df]">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
@@ -119,7 +119,7 @@ export default function SoloMode() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-8">
+      <main className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-4 md:gap-8">
         {/* Stats Bar */}
         <div className="flex w-full gap-4">
           <div className="flex flex-1 flex-col items-center gap-1 rounded-xl bg-[#2c2e31] p-4">
@@ -141,8 +141,8 @@ export default function SoloMode() {
         </div>
 
         {/* Text Display */}
-        <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-10 shadow-2xl backdrop-blur-sm">
-          <p className="text-center text-2xl leading-relaxed tracking-wide">
+        <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-10">
+          <p className="text-center text-lg leading-relaxed tracking-wide md:text-2xl">
             {text.split("").map((char, index) => (
               <span key={index} className={getCharacterColor(index)}>
                 {char}
@@ -174,7 +174,7 @@ export default function SoloMode() {
             onChange={handleInputChange}
             disabled={isFinished}
             placeholder="Start typing..."
-            className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-6 py-4 text-xl text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] disabled:opacity-50"
+            className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-4 py-3 text-base text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] disabled:opacity-50 md:px-6 md:py-4 md:text-xl"
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"

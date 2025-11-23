@@ -274,7 +274,7 @@ export default function MultiplayerLobby() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#e8e6df]">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
@@ -296,12 +296,12 @@ export default function MultiplayerLobby() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex w-full max-w-3xl flex-col items-center justify-center gap-8">
+      <main className="relative z-10 flex w-full max-w-3xl flex-col items-center justify-center gap-4 md:gap-8">
         {!inRoom ? (
           // Lobby Selection Screen
-          <div className="flex w-full flex-col gap-8">
+          <div className="flex w-full flex-col gap-4 md:gap-8">
             <div className="flex flex-col items-center gap-4 text-center">
-              <h1 className="bg-linear-to-br from-[#e8e6df] via-[#f5c542] to-[#e8e6df] bg-clip-text text-5xl font-bold tracking-tight text-transparent">
+              <h1 className="bg-linear-to-br from-[#e8e6df] via-[#f5c542] to-[#e8e6df] bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-5xl">
                 Multiplayer Lobby
               </h1>
               <p className="text-lg text-[#9b9d9f]">
@@ -310,7 +310,7 @@ export default function MultiplayerLobby() {
             </div>
 
             {/* Player Name Input */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-8">
               <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-[#f5c542]">
                 <span>👤</span> Your Name
               </h2>
@@ -322,13 +322,13 @@ export default function MultiplayerLobby() {
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
                 placeholder="Enter your name..."
-                className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-6 py-3 text-lg text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542]"
+                className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-4 py-3 text-base text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] md:px-6 md:text-lg"
                 maxLength={20}
               />
             </div>
 
             {/* Create Room */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-8">
               <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-[#f5c542]">
                 <span>🎮</span> Create New Room
               </h2>
@@ -348,7 +348,7 @@ export default function MultiplayerLobby() {
             </div>
 
             {/* Join Room */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-8">
               <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-[#f5c542]">
                 <span>🔗</span> Join Existing Room
               </h2>
@@ -361,7 +361,7 @@ export default function MultiplayerLobby() {
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                   placeholder="ROOM CODE"
-                  className="flex-1 rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-6 py-3 text-center text-lg uppercase tracking-wider text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542]"
+                  className="flex-1 rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-4 py-3 text-center text-base uppercase tracking-wider text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] md:px-6 md:text-lg"
                   maxLength={6}
                 />
                 <button
@@ -379,15 +379,15 @@ export default function MultiplayerLobby() {
           </div>
         ) : (
           // Room Screen
-          <div className="flex w-full flex-col gap-8">
+          <div className="flex w-full flex-col gap-4 md:gap-8">
             {/* Room Code Display */}
             <div className="flex flex-col items-center gap-4 text-center">
-              <h1 className="bg-linear-to-br from-[#e8e6df] via-[#f5c542] to-[#e8e6df] bg-clip-text text-4xl font-bold tracking-tight text-transparent">
+              <h1 className="bg-linear-to-br from-[#e8e6df] via-[#f5c542] to-[#e8e6df] bg-clip-text text-2xl font-bold tracking-tight text-transparent md:text-4xl">
                 Room Code
               </h1>
               <div className="flex items-center gap-4">
-                <div className="rounded-2xl border-2 border-[#f5c542] bg-[#2c2e31] px-8 py-4">
-                  <span className="text-4xl font-bold tracking-wider text-[#f5c542]">
+                <div className="rounded-2xl border-2 border-[#f5c542] bg-[#2c2e31] px-6 py-3 md:px-8 md:py-4">
+                  <span className="text-2xl font-bold tracking-wider text-[#f5c542] md:text-4xl">
                     {roomCode}
                   </span>
                 </div>
@@ -408,7 +408,7 @@ export default function MultiplayerLobby() {
             </div>
 
             {/* Players List */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-8">
               <h2 className="mb-6 flex items-center gap-2 text-2xl font-semibold text-[#f5c542]">
                 <span>👥</span> Players ({players.length})
               </h2>

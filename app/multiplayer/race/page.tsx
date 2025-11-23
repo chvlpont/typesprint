@@ -196,7 +196,7 @@ function MultiplayerRaceContent() {
     .sort((a, b) => (b.score || 0) - (a.score || 0));
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-8 text-[#e8e6df]">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
@@ -220,12 +220,12 @@ function MultiplayerRaceContent() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-8">
+      <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-4 md:gap-8">
         {!raceFinished ? (
           <>
             {/* Text Display */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-10 shadow-2xl backdrop-blur-sm">
-              <p className="text-center text-2xl leading-relaxed tracking-wide">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-10">
+              <p className="text-center text-lg leading-relaxed tracking-wide md:text-2xl">
                 {RACE_TEXT.split("").map((char, index) => (
                   <span key={index} className={getCharacterColor(index)}>
                     {char}
@@ -243,7 +243,7 @@ function MultiplayerRaceContent() {
                 onChange={handleInputChange}
                 disabled={isFinished}
                 placeholder="Start typing..."
-                className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-6 py-4 text-xl text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] disabled:opacity-50"
+                className="w-full rounded-xl border-2 border-[#3a3d40] bg-[#1f2123] px-4 py-3 text-base text-[#e8e6df] placeholder-[#7a7c7f] outline-none transition-all focus:border-[#f5c542] disabled:opacity-50 md:px-6 md:py-4 md:text-xl"
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
@@ -252,7 +252,7 @@ function MultiplayerRaceContent() {
             </div>
 
             {/* Players Progress */}
-            <div className="w-full space-y-4">
+            <div className="w-full space-y-3 md:space-y-4">
               <h2 className="text-xl font-semibold text-[#f5c542]">
                 Live Race Progress
               </h2>
@@ -268,7 +268,7 @@ function MultiplayerRaceContent() {
                       isCurrentPlayer
                         ? "border-[#f5c542] bg-[#2c2e31]/80"
                         : "border-[#3a3d40] bg-[#2c2e31]/50"
-                    } p-6 transition-all`}
+                    } p-4 transition-all md:p-6`}
                   >
                     {/* Player Info */}
                     <div className="mb-3 flex items-center justify-between">
@@ -334,11 +334,11 @@ function MultiplayerRaceContent() {
           </>
         ) : (
           // Results Screen
-          <div className="flex w-full flex-col items-center gap-8">
+          <div className="flex w-full flex-col items-center gap-4 md:gap-8">
             {/* Winner Announcement */}
-            <div className="w-full rounded-2xl border-2 border-[#f5c542] bg-linear-to-br from-[#f5c542]/20 to-[#e2b714]/20 p-10 text-center shadow-2xl">
-              <div className="mb-4 text-6xl">🏆</div>
-              <h1 className="mb-2 text-4xl font-bold text-[#f5c542]">
+            <div className="w-full rounded-2xl border-2 border-[#f5c542] bg-linear-to-br from-[#f5c542]/20 to-[#e2b714]/20 p-6 text-center shadow-2xl md:p-10">
+              <div className="mb-4 text-4xl md:text-6xl">🏆</div>
+              <h1 className="mb-2 text-2xl font-bold text-[#f5c542] md:text-4xl">
                 {winner} Won!
               </h1>
               <p className="text-lg text-[#e8e6df]">
@@ -347,11 +347,11 @@ function MultiplayerRaceContent() {
             </div>
 
             {/* Final Rankings */}
-            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="w-full rounded-2xl border-2 border-[#3a3d40] bg-linear-to-br from-[#2c2e31]/80 to-[#252729]/80 p-4 shadow-2xl backdrop-blur-sm md:p-8">
               <h2 className="mb-6 text-2xl font-semibold text-[#f5c542]">
                 Final Results
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {rankedPlayers.map((player, index) => {
                   const rank = index + 1;
                   const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉";
