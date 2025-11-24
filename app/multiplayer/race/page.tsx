@@ -196,7 +196,7 @@ function MultiplayerRaceContent() {
     .sort((a, b) => (b.score || 0) - (a.score || 0));
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8 md:justify-between justify-start">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
@@ -220,7 +220,7 @@ function MultiplayerRaceContent() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-4 md:gap-8">
+      <main className="relative z-10 flex w-full max-w-5xl flex-col items-center justify-center gap-4 md:gap-8 mt-20">
         {!raceFinished ? (
           <>
             {/* Text Display */}

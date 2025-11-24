@@ -97,7 +97,7 @@ export default function SoloMode() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8">
+    <div className="relative flex min-h-screen flex-col items-center justify-between overflow-hidden bg-[#323437] px-4 py-4 text-[#e8e6df] md:py-8 md:justify-between justify-start">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-[#f5c542] opacity-5 blur-[120px]"></div>
 
@@ -119,7 +119,7 @@ export default function SoloMode() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-4 md:gap-8">
+      <main className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center gap-4 md:gap-8 pb-8 mt-20">
         {/* Stats Bar */}
         <div className="flex w-full gap-4">
           <div className="flex flex-1 flex-col items-center gap-1 rounded-xl bg-[#2c2e31] p-4">
