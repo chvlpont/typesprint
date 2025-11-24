@@ -87,7 +87,7 @@ export default function SoloMode() {
 
   const progress = text.length > 0 ? (input.length / text.length) * 100 : 0;
   const elapsedTime = startTime
-    ? Math.round((endTime || Date.now() - startTime) / 1000)
+    ? Math.floor((endTime || Date.now() - startTime) / 1000)
     : 0;
 
   const getCharacterColor = (index: number) => {

@@ -190,6 +190,11 @@ function MultiplayerRaceContent() {
     return "th";
   };
 
+  // Calculate elapsed time
+  const elapsedTime = startTime
+    ? Math.floor((Date.now() - startTime) / 1000)
+    : 0;
+
   // Calculate final rankings (sorted by score: WPM × accuracy)
   const rankedPlayers = [...players]
     .filter((p) => p.finished)
@@ -295,7 +300,7 @@ function MultiplayerRaceContent() {
                           </p>
                         </div>
                       </div>
-                      <div className="flex gap-6 pr-6 text-sm">
+                      <div className="flex gap-4 pr-6 text-sm">
                         <div className="text-center">
                           <p className="text-[#9b9d9f]">WPM</p>
                           <p className="text-lg font-bold text-[#f5c542]">
@@ -306,6 +311,12 @@ function MultiplayerRaceContent() {
                           <p className="text-[#9b9d9f]">Accuracy</p>
                           <p className="text-lg font-bold text-[#f5c542]">
                             {Math.round(player.accuracy)}%
+                          </p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[#9b9d9f]">Time</p>
+                          <p className="text-lg font-bold text-[#f5c542]">
+                            {elapsedTime}s
                           </p>
                         </div>
                       </div>
